@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "nombre": "Tripack Virtual PASA",
+    "descripcion": "Escoge 3 unidades del producto seleccionado en la misma talla, pueden ser 3 colores iguales o 3 distintos.",
+    "validez": "No tiene fecha de caducidad",
+    "ubicaciones": "En todas las sucursales PASA y en la Página web",
+    "restriciones": "No aplica en productos en oferta",
+    "imagen": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=800&q=80"
+  },
+  {
+    "id": 2,
+    "nombre": "Descuentos en Mercaderia Seleccionadas",
+    "descripcion": "En artículos seleccionados, aplica descuentos especiales con el 30% de descuento.",
+    "validez": "Hasta el 31 de Octubre de 2025",
+    "ubicaciones": "En todas las sucursales PASA",
+    "restriciones": "No aplica en productos en oferta",
+    "imagen": "https://images.unsplash.com/photo-1556745753-b2904692b3cd?w=800&q=80"
+  },
+  {
+    "id": 3,
+    "nombre": "Descuentos Online Exclusivos",
+    "descripcion": "En artículos seleccionados, aplica descuentos especiales con el 30% o el 50% de descuento.",
+    "validez": "No tiene fecha de caducidad",
+    "ubicaciones": "Solo en la Página web",
+    "restriciones": "No aplica en productos en oferta",
+    "imagen": "https://images.unsplash.com/photo-1556745753-b2904692b3cd?w=800&q=80"
+  }
+]
