@@ -22,7 +22,8 @@ FROM node:20 AS build
 WORKDIR /app
 COPY package*.json ./
 
-RUN rm -rf node_modules package-lock.json && npm install --legacy-peer-deps
+RUN rm -rf node_modules package-lock.json && npm cache clean --force
+RUN npm install --legacy-peer-deps
 
 # RUN npm install --legacy-peer-deps
 COPY . .
