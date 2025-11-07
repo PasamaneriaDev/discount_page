@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaWhatsapp, FaGlobe } from "react-icons/fa";
 
 function App() {
   const [anuncios, setAnuncios] = useState([]);
+  const [visibleCards, setVisibleCards] = useState(new Set());
+  const [isMobile, setIsMobile] = useState(false);
+  const cardRefs = useRef([]);
 
   useEffect(() => {
     fetch("/anuncios.json")
@@ -10,6 +13,40 @@ function App() {
       .then((data) => setAnuncios(data))
       .catch((err) => console.error("Error cargando anuncios:", err));
   }, []);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleScroll = () => {
+      const newVisibleCards = new Set();
+      cardRefs.current.forEach((ref, index) => {
+        if (ref) {
+          const rect = ref.getBoundingClientRect();
+          const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+          if (isVisible) {
+            newVisibleCards.add(index);
+          }
+        }
+      });
+      setVisibleCards(newVisibleCards);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial visibility
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [anuncios, isMobile]);
 
   const whatsapp = "593962962677";
   const website = "https://www.pasa.ec/71-sale";
@@ -38,12 +75,14 @@ function App() {
 
 
       {/* Tarjetas */}
-      <div className="grid md:grid-cols-3 gap-8 mt-12 w-full max-w-6xl justify-items-center">
-        {anuncios.map((a) => (
+      <div className="grid md:grid-cols-3 gap-8 mt-8 w-full max-w-5xl justify-items-center">
+        {anuncios.map((a, index) => (
           <div
             key={a.id}
-            className={`border border-gray-200 rounded-[50px] shadow-lg overflow-hidden flex flex-col text-center transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:scale-105
-              ${a.id === 2 ? "bg-gray-900" : "bg-white"}`}
+            ref={(el) => (cardRefs.current[index] = el)}
+            className={`border border-gray-200 rounded-[50px] shadow-lg overflow-hidden flex flex-col text-center transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:scale-105 ${
+              isMobile && visibleCards.has(index) ? 'shadow-2xl -translate-y-2 scale-105' : ''
+            } ${a.id === 2 ? "bg-gray-900" : "bg-white"}`}
             style={{ width: "100%", maxWidth: "320px", minHeight: "480px" }}
           >
             <div className="p-6 flex flex-col justify-between flex-grow">
@@ -52,21 +91,15 @@ function App() {
                   <img
                     src={a.imagen}
                     alt={a.nombre}
-                    className="object-cover w-full h-[300px] transition-transform duration-700 hover:scale-110"
+                    className={`object-cover w-full h-[300px] transition-transform duration-700 hover:scale-110 ${
+                      isMobile && visibleCards.has(index) ? 'scale-110' : ''
+                    }`}
                   />
-
-                  {/* Overlay degradado mejorado */}
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/95 via-black/50 to-transparent"></div>
-
-                  {/* Título mejorado */}
-                  <div className="absolute left-4 right-4 bottom-4">
-                    <p
-                      className={`text-lg font-extrabold drop-shadow-lg leading-tight ${a.id === 2 ? "text-[#d4ec4d]" : "text-white"}`}
-                    >
-                      {a.nombre}
-                    </p>
-                  </div>
                 </div>
+
+                <h3 className={`text-lg font-extrabold mt-4 text-center ${a.id === 2 ? "text-[#d4ec4d]" : "text-gray-800"}`}>
+                  {a.nombre}
+                </h3>
               </div>
 
               <p
