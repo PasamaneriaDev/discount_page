@@ -28,7 +28,7 @@ function App() {
 
           {/* Imagen alineada a la derecha */}
           <img
-            src="src/assets/images/pasa.png"
+            src="/images/pasa.png"
             alt="icono"
             className="w-13 h-6 object-contain"
           />
@@ -39,7 +39,7 @@ function App() {
 
       {/* Tarjetas */}
       <div className="grid md:grid-cols-3 gap-10 mt-12 w-full max-w-5xl justify-items-center">
-        {anuncios.map((a, index) => (
+        {anuncios.map((a) => (
           <div
             key={a.id}
             className={`border border-[#1d1d1d] rounded-[50px] shadow-md overflow-hidden flex flex-col text-center transition-all duration-300 hover:shadow-xl 

@@ -6,7 +6,7 @@
     "validez": "Hasta el 31 de Octubre de 2025",
     "ubicaciones": "En todas las sucursales PASA",
     "restriciones": "No aplica en productos en oferta",
-    "imagen": "src/assets/images/imagen_desc.png"
+    "imagen": "/images/imagen_desc.png"
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "validez": "No tiene fecha de caducidad",
     "ubicaciones": "Aplican solamente en la Página web",
     "restriciones": "No aplica en productos en oferta",
-    "imagen": "src/assets/images/imagen_saldos.png"
+    "imagen": "/images/imagen_saldos.png"
   },
   {
     "id": 3,
@@ -24,6 +24,6 @@
     "validez": "No tiene fecha de caducidad",
     "ubicaciones": "En todas las sucursales PASA y en la Página web",
     "restriciones": "No aplica en productos en oferta",
-    "imagen": "src/assets/images/imagen_tripack.png"
+    "imagen": "/images/imagen_tripack.png"
   }
 ]
