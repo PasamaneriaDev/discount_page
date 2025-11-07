@@ -1,100 +1,107 @@
 import { useState, useEffect } from "react";
-import { FaWhatsapp, FaGlobe, FaMoon, FaSun } from "react-icons/fa";
+import { FaWhatsapp, FaGlobe } from "react-icons/fa";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [anuncios, setAnuncios] = useState([]);
 
-  // Al cargar, leer el tema guardado
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") setDarkMode(true);
-  }, []);
-
-    const [anuncios, setAnuncios] = useState([]);
-
-   useEffect(() => {
     fetch("/anuncios.json")
       .then((res) => res.json())
-      .then((data) => {
-        setAnuncios(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error cargando anuncios:", err);
-        setLoading(false);
-      });
+      .then((data) => setAnuncios(data))
+      .catch((err) => console.error("Error cargando anuncios:", err));
   }, []);
-
 
   const whatsapp = "593962962677";
   const website = "https://www.pasa.ec/71-sale";
 
   return (
-    <div
-      style={{ fontFamily: "sans-serif" }}
-      className={`min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500 ${
-        darkMode ? "bg-gray-900" : "bg-gradient-to-b from-white to-gray-100"
-      }`}
-    >
-      <h1
-        className={`text-4xl font-extrabold mb-10 text-center tracking-wide ${
-          darkMode ? "text-gray-100" : "text-gray-800"
-        }`}
-      >
-        Descuentos Activos
-      </h1>
+    <div className="min-h-screen bg-white flex flex-col items-center py-16 px-6 font-[Poppins]">
+      {/* Fondo morado a todo el ancho */}
+      <div className="w-full bg-[#452BB2] text-white font-bold text-[20px] tracking-wide">
+        {/* Contenido centrado */}
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
+          {/* Sección izquierda: raya + texto */}
+          <div className="flex items-center">
+            <div className="w-[3px] h-[40px] bg-white mr-3"></div>
+            <h2>DESCUENTOS ACTIVOS</h2>
+          </div>
 
-      <div className="grid gap-10 w-full max-w-5xl">
-        {anuncios.map((a) => (
+          {/* Imagen alineada a la derecha */}
+          <img
+            src="src/assets/images/pasa.png"
+            alt="icono"
+            className="w-13 h-6 object-contain"
+          />
+        </div>
+      </div>
+
+
+
+      {/* Tarjetas */}
+      <div className="grid md:grid-cols-3 gap-10 mt-12 w-full max-w-5xl justify-items-center">
+        {anuncios.map((a, index) => (
           <div
             key={a.id}
-            className="bg-[#042649FF] rounded-3xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col md:flex-row group"
+            className={`border border-[#1d1d1d] rounded-[50px] shadow-md overflow-hidden flex flex-col text-center transition-all duration-300 hover:shadow-xl 
+              ${a.id === 2 ? "bg-black" : "bg-white"}`}
+
+
+            style={{ width: "100%", maxWidth: "320px", minHeight: "470px" }}
           >
-            <img
-              src={a.imagen}
-              alt={a.nombre}
-              className="w-full md:w-1/2 object-cover h-64 md:h-auto group-hover:scale-105 transition-transform duration-500"
-            />
-            <div className="p-8 flex flex-col justify-between">
-              <div>
-                <h2
-                  className="text-3xl font-bold mb-4 bg-gradient-to-r 
-                    from-blue-700 via-purple-500 to-pink-400 
-                    dark:from-cyan-300 dark:via-indigo-400 dark:to-purple-500 
-                    bg-clip-text text-transparent animate-gradient tracking-tight 
-                    hover:brightness-125 transition-all duration-300"
-                >
-                  {a.nombre}
-                </h2>
+            <div className="p-6 flex flex-col justify-between flex-grow">
+              <h3 className="text-[15pt] font-bold mb-4 w-full">
+                <div className="relative w-full overflow-hidden rounded-[20px]" style={{ maxHeight: "300px" }}>
+                  <img
+                    src={a.imagen}
+                    alt={a.nombre}
+                    className={`object-cover w-full h-[300px] transition-transform duration-500 hover:scale-100`} // <-- imagen más suave o distinta
+                  />
 
-                <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-                  {a.descripcion}
-                </p>
+                  {/* Overlay degradado */}
+                  <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
 
-                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                  <li>
-                    <strong className="text-gray-800 dark:text-gray-200">
-                      Validez:
-                    </strong>{" "}
-                    {a.validez}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800 dark:text-gray-200">
-                      Aplica en:
-                    </strong>{" "}
-                    {a.ubicaciones}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800 dark:text-gray-200">
-                      Restricciones:
-                    </strong>{" "}
-                    {a.restriciones}
-                  </li>
-                </ul>
-              </div>
+                  {/* Título */}
+                  <div className="absolute left-4 right-4 bottom-3">
+                    <p
+                      className={`text-[12pt] font-extrabold drop-shadow-md ${a.id === 2 ? "text-[#d4ec4d]" : "text-white"}`}
+                    >
+                      {a.nombre}
+                    </p>
+                  </div>
+                </div>
+              </h3>
+
+              <p
+                className={`text-[10pt]  text-left leading-snug mb-4 flex-grow w-full text-justify
+                  ${a.id === 2 ? "text-gray-300" : "text-black"}`}
+                style={{ minHeight: "40px", display: "block", textAlignLast: "left" }}
+              >
+                {a.descripcion}
+              </p>
+              <ul
+                className={`text-[12px] space-y-1 text-left w-full px-2  ${a.id === 2 ? "text-gray-300" : "text-black"}`}
+                style={{
+                  minHeight: "60px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <li>
+                  <strong>• Validez:</strong> {a.validez}
+                </li>
+                <li>
+                  <strong>• Aplica en:</strong> {a.ubicaciones}
+                </li>
+                <li>
+                  <strong>• Restricciones:</strong> {a.restriciones}
+                </li>
+              </ul>
+
             </div>
           </div>
         ))}
+
       </div>
 
       {/* Íconos flotantes */}
@@ -116,8 +123,6 @@ function App() {
         >
           <FaGlobe size={24} />
         </a>
-
-        
       </div>
     </div>
   );
