@@ -20,9 +20,9 @@ function App() {
     };
 
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
+    window.addEventListener("resize", checkIsMobile);
 
-    return () => window.removeEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
   useEffect(() => {
@@ -42,10 +42,10 @@ function App() {
       setVisibleCards(newVisibleCards);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll(); // Check initial visibility
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [anuncios, isMobile]);
 
   const whatsapp = "593962962677";
@@ -53,17 +53,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center py-16 px-6 font-[Poppins]">
-      {/* Fondo morado a todo el ancho con gradiente */}
+      {/* Fondo morado superior */}
       <div className="w-full bg-gradient-to-r from-[#452BB2] to-[#5B3CC4] text-white font-bold text-[20px] tracking-wide shadow-lg">
-        {/* Contenido centrado */}
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
-          {/* Sección izquierda: raya + texto */}
           <div className="flex items-center">
             <div className="w-[3px] h-[40px] bg-white mr-4 rounded-full"></div>
             <h2 className="text-xl md:text-2xl">DESCUENTOS ACTIVOS</h2>
           </div>
-
-          {/* Imagen alineada a la derecha */}
           <img
             src="/images/pasa.png"
             alt="Logo Pasa"
@@ -72,8 +68,6 @@ function App() {
         </div>
       </div>
 
-
-
       {/* Tarjetas */}
       <div className="grid md:grid-cols-3 gap-8 mt-8 w-full max-w-5xl justify-items-center">
         {anuncios.map((a, index) => (
@@ -81,36 +75,78 @@ function App() {
             key={a.id}
             ref={(el) => (cardRefs.current[index] = el)}
             className={`border border-gray-200 rounded-[50px] shadow-lg overflow-hidden flex flex-col text-center transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:scale-105 ${
-              isMobile && visibleCards.has(index) ? 'shadow-2xl -translate-y-2 scale-105' : ''
+              isMobile && visibleCards.has(index)
+                ? "shadow-2xl -translate-y-2 scale-105"
+                : ""
             } ${a.id === 2 ? "bg-gray-900" : "bg-white"}`}
             style={{ width: "100%", maxWidth: "320px", minHeight: "480px" }}
           >
-            <div className="p-6 flex flex-col justify-between flex-grow">
-              <div className="mb-4 w-full">
-                <div className="relative w-full overflow-hidden rounded-[20px] shadow-md" style={{ maxHeight: "300px" }}>
+            <div className="p-6 flex flex-col justify-between flex-grow relative">
+              {/* Imagen principal */}
+              <div className="mb-4 w-full relative z-10">
+                <div
+                  className="relative w-full overflow-hidden rounded-[20px] shadow-md"
+                  style={{ maxHeight: "300px" }}
+                >
                   <img
                     src={a.imagen}
                     alt={a.nombre}
                     className={`object-cover w-full h-[300px] transition-transform duration-700 hover:scale-110 ${
-                      isMobile && visibleCards.has(index) ? 'scale-110' : ''
+                      isMobile && visibleCards.has(index) ? "scale-110" : ""
                     }`}
                   />
                 </div>
 
-                <h3 className={`text-lg font-extrabold mt-4 text-center ${a.id === 2 ? "text-[#d4ec4d]" : "text-gray-800"}`}>
+                {/* Imagen decorativa 1: arriba del título */}
+                {a.id === 1 && (
+                  <img
+                    src="/images/Estrella_Amarilla.png"
+                    alt="Decoración estrella"
+                    className="absolute top-70 left-2 w-10 h-10 opacity-80 z-0"
+                  />
+                )}
+
+                <h3
+                  className={`text-lg font-extrabold mt-4 text-center relative z-10 ${
+                    a.id === 2 ? "text-[#d4ec4d]" : "text-gray-800"
+                  }`}
+                >
                   {a.nombre}
                 </h3>
+                {/* Imagen decorativa 2: al lado de la descripción */}
+              {a.id === 1 && (
+                <img
+                  src="/images/circulo_morado.png"
+                  alt="Decoración círculo"
+                  className="absolute right-2 top-68 transform -translate-y-1/2 w-10 h-8 opacity-80 z-0"
+                />
+              )}
               </div>
 
+              {/* Imagen decorativa 2: al lado de la descripción */}
+              {a.id === 1 && (
+                <img
+                  src="/images/circulo_turqueza.png"
+                  alt="Decoración círculo"
+                  className="absolute left-10 bottom-12 transform -translate-y-1/2 w-10 h-10 opacity-80 z-0"
+                />
+              )}
+
+              {/* Descripción */}
               <p
-                className={`text-sm text-left leading-relaxed mb-4 flex-grow w-full text-justify
-                  ${a.id === 2 ? "text-gray-300" : "text-gray-700"}`}
+                className={`text-sm text-left leading-relaxed mb-4 flex-grow w-full text-justify relative z-10 ${
+                  a.id === 2 ? "text-gray-300" : "text-gray-700"
+                }`}
                 style={{ minHeight: "50px" }}
               >
                 {a.descripcion}
               </p>
+
+              {/* Lista de detalles */}
               <ul
-                className={`text-xs space-y-2 text-left w-full px-2 ${a.id === 2 ? "text-gray-300" : "text-gray-600"}`}
+                className={`text-xs space-y-2 text-left w-full px-2 relative z-10 ${
+                  a.id === 2 ? "text-gray-300" : "text-gray-600"
+                }`}
                 style={{
                   minHeight: "70px",
                   display: "flex",
@@ -120,25 +156,38 @@ function App() {
               >
                 <li className="flex items-start">
                   <span className="text-blue-500 mr-2">•</span>
-                  <span><strong>Validez:</strong> {a.validez}</span>
+                  <span>
+                    <strong>Validez:</strong> {a.validez}
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-500 mr-2">•</span>
-                  <span><strong>Aplica en:</strong> {a.ubicaciones}</span>
+                  <span>
+                    <strong>Aplica en:</strong> {a.ubicaciones}
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-500 mr-2">•</span>
-                  <span><strong>Restricciones:</strong> {a.restriciones}</span>
+                  <span>
+                    <strong>Restricciones:</strong> {a.restriciones}
+                  </span>
                 </li>
               </ul>
 
+              {/* Imagen decorativa inferior derecha */}
+              {a.id === 1 && (
+                <img
+                  src="/images/Estrella_Magenta.png"
+                  alt="Decoración estrella magenta"
+                  className="absolute bottom-4 right-4 w-16 h-14 opacity-80 z-0"
+                />
+              )}
             </div>
           </div>
         ))}
-
       </div>
 
-      {/* Íconos flotantes mejorados */}
+      {/* Íconos flotantes */}
       <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-10">
         <a
           href={`https://wa.me/${whatsapp}`}
