@@ -23,6 +23,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN rm -rf node_modules package-lock.json && npm cache clean --force
+RUN npm install -g patch-package
 RUN npm install --legacy-peer-deps
 
 # RUN npm install --legacy-peer-deps
